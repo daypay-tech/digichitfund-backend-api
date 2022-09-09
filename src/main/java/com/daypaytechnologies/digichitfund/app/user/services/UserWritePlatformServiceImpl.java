@@ -4,12 +4,8 @@ import com.daypaytechnologies.digichitfund.infrastructure.Response;
 import com.daypaytechnologies.digichitfund.infrastructure.exceptions.DuplicateRecordException;
 import com.daypaytechnologies.digichitfund.infrastructure.exceptions.NavPulseApplicationException;
 import com.daypaytechnologies.digichitfund.infrastructure.exceptions.PlatformDataIntegrityException;
-import com.daypaytechnologies.digichitfund.master.age.domain.Age;
-import com.daypaytechnologies.digichitfund.master.age.domain.AgeRepositoryWrapper;
-import com.daypaytechnologies.digichitfund.master.gender.domain.Gender;
-import com.daypaytechnologies.digichitfund.master.gender.domain.GenderRepositoryWrapper;
-import com.daypaytechnologies.digichitfund.app.organization.domain.Organization;
-import com.daypaytechnologies.digichitfund.app.organization.domain.OrganizationRepositoryWrapper;
+
+
 import com.daypaytechnologies.digichitfund.app.user.constants.RoleConstants;
 import com.daypaytechnologies.digichitfund.app.user.data.*;
 import com.daypaytechnologies.digichitfund.app.user.domain.account.Account;
@@ -53,7 +49,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserWritePlatformServiceImpl implements UserWritePlatformService {
 
-    private final MemberRepository memberRepository;
+
 
     private final PasswordEncoder passwordEncoder;
 
@@ -61,15 +57,13 @@ public class UserWritePlatformServiceImpl implements UserWritePlatformService {
 
     private final UserDataValidator userDataValidator;
 
-    private final GenderRepositoryWrapper genderRepositoryWrapper;
 
-    private final AgeRepositoryWrapper ageRepositoryWrapper;
 
     private final JwtTokenHandler jwtTokenHandler;
 
     private final AuthenticationManager authenticationManager;
 
-    private final MemberRepositoryWrapper memberRepositoryWrapper;
+
 
     private final AdministrationUserRepositoryWrapper administrationUserRepositoryWrapper;
 
@@ -77,29 +71,19 @@ public class UserWritePlatformServiceImpl implements UserWritePlatformService {
 
     private final AccountRepository accountRepository;
 
-    private final OrganizationRepositoryWrapper organizationRepositoryWrapper;
+
 
     private final AccountWritePlatformService accountWritePlatformService;
 
+
     @Override
-    @Transactional
     public Response doMemberSignUp(MemberSignUpRequest memberSignUpRequest) {
-        try {
-            this.userDataValidator.validateSignUpFormData(memberSignUpRequest);
-            final Gender gender = this.genderRepositoryWrapper.findOneWithNotFoundDetection(memberSignUpRequest.getGenderId());
-            final Age age = this.ageRepositoryWrapper.findOneWithNotFoundDetection(memberSignUpRequest.getAgeId());
-            final Member member = Member.from(memberSignUpRequest, gender, age, passwordEncoder);
-            this.memberRepository.saveAndFlush(member);
-            return Response.of(member.getId());
-        } catch (final JpaSystemException | DataIntegrityViolationException dve) {
-            dve.getRootCause();
-            handleDataIntegrityIssues(memberSignUpRequest.getMobile(), memberSignUpRequest.getEmail(), dve.getMostSpecificCause(), dve);
-            return Response.empty();
-        } catch (final PersistenceException dve) {
-            Throwable throwable = ExceptionUtils.getRootCause(dve.getCause());
-            handleDataIntegrityIssues(memberSignUpRequest.getMobile(), memberSignUpRequest.getEmail(), throwable, dve);
-            return Response.empty();
-        }
+        return null;
+    }
+
+    @Override
+    public Response doAdministrationUserSignUp(AdministrationUserSignUpRequest administrationUserSignUpRequest) {
+        return null;
     }
 
     private void checkRoleHasSuperAdmin(List<Long> roles) {
@@ -115,50 +99,17 @@ public class UserWritePlatformServiceImpl implements UserWritePlatformService {
         if(orgId == null) {
             throw new NavPulseApplicationException("Organization Id shouldn't be empty");
         }
-        final AdministrationUser adminOrg = this.administrationUserRepository.findByOrg(orgId);
-        if(adminOrg != null) {
-            for(Role role: adminOrg.getAccount().getRoles()) {
-                if(role.getCode().equals(RoleConstants.ROLE_ADMIN)) {
-                    throw new NavPulseApplicationException("Admin account already exist for this organization");
-                }
-            }
-        }
+
     }
 
-    @Override
-    @Transactional
-    public Response doAdministrationUserSignUp(AdministrationUserSignUpRequest administrationUserSignUpRequest) {
-        try {
-            this.userDataValidator.validateAdministrationSignUpFormData(administrationUserSignUpRequest);
-            this.checkRoleHasSuperAdmin(administrationUserSignUpRequest.getAccount().getRoles());
-            final Organization organization = this.organizationRepositoryWrapper.findOneWithNotFoundDetection(administrationUserSignUpRequest.getOrgId());
-            String userName = administrationUserSignUpRequest.getAccount().getEmail();
-            this.checkOrgHasAdminAccount(administrationUserSignUpRequest.getOrgId());
-            final AdministrationUser oldAdministrationUser = this.administrationUserRepository.findByEmailOrMobile(userName, organization.getId());
-            if(oldAdministrationUser != null) {
-                throw new DuplicateRecordException("Account with this email for this organization exist");
-            }
-            final Account account = accountWritePlatformService.saveAccount(administrationUserSignUpRequest.getAccount());
-            final AdministrationUser administrationUser = AdministrationUser.from(administrationUserSignUpRequest, account, organization);
-            this.administrationUserRepository.saveAndFlush(administrationUser);
-            return Response.of(administrationUser.getId());
-        } catch (final JpaSystemException | DataIntegrityViolationException dve) {
-            dve.getRootCause();
-            handleDataIntegrityIssues(administrationUserSignUpRequest.getAccount().getMobile(), administrationUserSignUpRequest.getAccount().getEmail(), dve.getMostSpecificCause(), dve);
-            return Response.empty();
-        } catch (final PersistenceException dve) {
-            Throwable throwable = ExceptionUtils.getRootCause(dve.getCause());
-            handleDataIntegrityIssues(administrationUserSignUpRequest.getAccount().getMobile(), administrationUserSignUpRequest.getAccount().getEmail(), throwable, dve);
-            return Response.empty();
-        }
-    }
+
 
     @Override
     @Transactional
     public Response createSuperAdminAccount(AdministrationUserSignUpRequest administrationUserSignUpRequest) {
         try {
             final Account account = accountWritePlatformService.saveSuperAdminAccount(administrationUserSignUpRequest.getAccount());
-            final AdministrationUser administrationUser = AdministrationUser.from(administrationUserSignUpRequest, account, null);
+            final AdministrationUser administrationUser = AdministrationUser.from(administrationUserSignUpRequest, account);
             this.administrationUserRepository.saveAndFlush(administrationUser);
             return Response.of(administrationUser.getId());
         } catch (final JpaSystemException | DataIntegrityViolationException dve) {
@@ -170,6 +121,11 @@ public class UserWritePlatformServiceImpl implements UserWritePlatformService {
             handleDataIntegrityIssues(administrationUserSignUpRequest.getAccount().getMobile(), administrationUserSignUpRequest.getAccount().getEmail(), throwable, dve);
             return Response.empty();
         }
+    }
+
+    @Override
+    public MemberAuthResponseData authenticateMember(LoginRequest loginRequest) {
+        return null;
     }
 
     private void handleDataIntegrityIssues(String mobileNo, String emailId, final Throwable realCause, final Exception dve) {
@@ -184,56 +140,12 @@ public class UserWritePlatformServiceImpl implements UserWritePlatformService {
                 "Unknown data integrity issue with resource.");
     }
 
-    @Override
-    public MemberAuthResponseData authenticateMember(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new MemberUsernameAndPasswordAuthToken(loginRequest.getUserName().trim(),
-                        loginRequest.getPassword().trim()));
-        MemberUserDetailsImpl userDetails = (MemberUserDetailsImpl) authentication.getPrincipal();
-        final Member member = this.memberRepositoryWrapper.findOneWithNotFoundDetection(userDetails.getId());
-        String jwtToken = jwtTokenHandler.generateJwtToken(userDetails.getUsername(), member.getId());
-        JwtResponse jwtResponse =  new JwtResponse(jwtToken);
-        MemberAuthResponseData memberAuthResponseData = MemberAuthResponseData
-                .newInstance(member.getId(), member.getOrganization(), member.getFirstName(), member.getLastName(),
-                        member.getMobile(), member.getEmail(), jwtResponse);
-        return memberAuthResponseData;
-    }
 
     @Override
     public AdministrationUserAuthResponseData authenticateAdminUser(AdministrationUserLoginRequest loginRequest) {
-        final AdministrationAuthTokenDTO administrationAuthTokenDTO = new AdministrationAuthTokenDTO();
-        administrationAuthTokenDTO.setUserName(loginRequest.getUserName().trim());
-        if(loginRequest.getOrgId() != null) { // for super admin
-            administrationAuthTokenDTO.setOrgId(loginRequest.getOrgId());
-        }
-        Authentication authentication = authenticationManager.authenticate(
-                new AdministrationUserUsernameAndPasswordAuthToken(administrationAuthTokenDTO,
-                        loginRequest.getPassword().trim()));
-        AdministrationUserDetailsImpl adminDetails = (AdministrationUserDetailsImpl) authentication.getPrincipal();
-        final AdministrationUser administrationUser = administrationUserRepositoryWrapper.findOneWithNotFoundDetection(adminDetails.getId());
-        Long organizationId = null;
-        if(administrationUser.getOrganization() != null) {
-            organizationId = administrationUser.getOrganization().getId();
-        }
-        String jwtToken = jwtTokenHandler.generateAdministrationUserJwtToken(administrationUser.getAccount().getEmail(),
-                organizationId, administrationUser.getId());
-        JwtResponse jwtResponse =  new JwtResponse(jwtToken);
-        List<RoleData> roles = new ArrayList<>();
-        for(Role role: administrationUser.getAccount().getRoles()) {
-            roles.add(role.toData());
-        }
-        return AdministrationUserAuthResponseData.newInstance(administrationUser.getId(), administrationUser.getFirstName(),
-                administrationUser.getLastName(), administrationUser.getAccount().getEmail(),
-                administrationUser.getAccount().getMobile(), roles, jwtResponse);
+        return null;
     }
 
-    @Override
-    public Member delete(Long id) {
-        final Member member = this.memberRepositoryWrapper.findOneWithNotFoundDetection(id);
-        member.setIsDeleted(true);
-        member.setDeletedOn(LocalDate.now());
-        member.setDeletedBy(1);
-        this.memberRepository.saveAndFlush(member);
-        return member;
-    }
+
+
 }

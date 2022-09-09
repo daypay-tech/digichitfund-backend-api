@@ -18,15 +18,10 @@ public class MemberAuthenticationProvider implements AuthenticationProvider {
 
     private final PasswordEncoder passwordEncoder;
 
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String username = authentication.getName();
-        String password = authentication.getCredentials().toString();
-        final MemberUserDetailsImpl userDetails = memberUserDetailsService.loadUserByUsername(username);
-        if(!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new com.daypaytechnologies.digichitfund.infrastructure.exceptions.AuthenticationException("Either username or password wrong");
-        }
-        return new MemberUsernameAndPasswordAuthToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        return null;
     }
 
     @Override

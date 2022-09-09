@@ -44,9 +44,5 @@ public class MemberApiResource {
         return this.userWritePlatformService.authenticateMember(loginRequest);
     }
 
-    @DeleteMapping("/{id}")
-    public Response delete(@PathVariable Long id) {
-        final Member member = this.userWritePlatformService.delete(id);
-        return Response.of(member.getId());
-    }
+
 }

@@ -21,14 +21,7 @@ public class PlatformSecurityContext {
 
     private final AdministrationUserRepositoryWrapper administrationUserRepositoryWrapper;
 
-    public Member validateMember() {
-        if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof MemberUserDetailsImpl)) {
-            throw new AuthenticationException("User not logged in. please do login");
-        }
-        MemberUserDetailsImpl userDetails = (MemberUserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final Member member =  this.memberRepositoryWrapper.findOneWithNotFoundDetection(userDetails.getId());
-        return this.memberRepositoryWrapper.findOneWithNotFoundDetection(member.getId());
-    }
+
 
     public AdministrationUser validateAdministrationUser() {
         if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof AdministrationUserDetailsImpl)) {

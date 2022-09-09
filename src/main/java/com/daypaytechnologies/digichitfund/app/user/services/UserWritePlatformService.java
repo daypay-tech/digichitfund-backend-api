@@ -21,5 +21,5 @@ public interface UserWritePlatformService {
 
     AdministrationUserAuthResponseData authenticateAdminUser(AdministrationUserLoginRequest loginRequest);
 
-    Member delete(Long id);
+
 }

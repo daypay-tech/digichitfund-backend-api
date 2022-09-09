@@ -19,26 +19,14 @@ public class AdministrationUserAuthenticationProvider implements AuthenticationP
 
     private final PasswordEncoder passwordEncoder;
 
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        AdministrationAuthTokenDTO administrationAuthTokenDTO = (AdministrationAuthTokenDTO) authentication.getPrincipal();
-        String username = administrationAuthTokenDTO.getUserName();
-        Long orgId = 0L;
-        if(administrationAuthTokenDTO.getOrgId() != null) {
-            orgId = administrationAuthTokenDTO.getOrgId();
-        }
-        username = username+":"+orgId;
-        String password = authentication.getCredentials().toString();
-        final AdministrationUserDetailsImpl userDetails = administrationUserDetailsService.loadUserByUsername(username);
-        if(!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new com.daypaytechnologies.digichitfund.infrastructure.exceptions.AuthenticationException("Either username or password wrong");
-        }
-        return new AdministrationUserUsernameAndPasswordAuthToken(userDetails,
-                userDetails.getPassword(), userDetails.getAuthorities());
+        return null;
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.equals(AdministrationUserUsernameAndPasswordAuthToken.class);
+        return false;
     }
 }

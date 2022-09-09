@@ -1,6 +1,6 @@
 package com.daypaytechnologies.digichitfund.app.user.domain.administrationuser;
 
-import com.daypaytechnologies.digichitfund.app.organization.domain.Organization;
+
 import com.daypaytechnologies.digichitfund.app.user.domain.account.Account;
 import com.daypaytechnologies.digichitfund.app.user.request.AdministrationUserSignUpRequest;
 import lombok.Data;
@@ -39,17 +39,15 @@ public class AdministrationUser {
     @Basic(optional = false)
     private Account account;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "organization_id", referencedColumnName = "id")
-    private Organization organization;
+
 
     public static AdministrationUser from(final AdministrationUserSignUpRequest memberSignUpRequest,
-                                          final Account account, final Organization organization) {
+                                          final Account account) {
         final AdministrationUser administrationUser = new AdministrationUser();
         administrationUser.setFirstName(memberSignUpRequest.getFirstName());
         administrationUser.setLastName(memberSignUpRequest.getLastName());
         administrationUser.setAccount(account);
-        administrationUser.setOrganization(organization);
+
         return administrationUser;
     }
 }
