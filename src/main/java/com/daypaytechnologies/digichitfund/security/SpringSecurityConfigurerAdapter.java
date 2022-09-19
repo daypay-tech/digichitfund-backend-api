@@ -57,16 +57,9 @@ public class SpringSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
                 .authorizeRequests()
                 //.antMatchers("/api/v1/categories/**").permitAll()
                 //.antMatchers("/api/v1/polls/**").permitAll()
-                .antMatchers("/api/v1/members/**").permitAll()
-                .antMatchers("/api/v1/answers/**").permitAll()
-                .antMatchers("/api/v1/questions/**").permitAll()
-                .antMatchers("/api/v1/administrations/**").permitAll()
-                .antMatchers("/api/v1/ages/**").permitAll()
-                .antMatchers("/api/v1/genders/**").permitAll()
-                .antMatchers("/api/v1/charts/**").permitAll()
-                .antMatchers("/api/v1/testAnswer/**").permitAll()
-                .antMatchers("/api/v1/roles/**").permitAll()
-                .antMatchers("/api/v1/organizations/**").permitAll()
+
+                .antMatchers("/api/v1/schemes/**").permitAll()
+
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
