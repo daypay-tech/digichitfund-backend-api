@@ -22,13 +22,12 @@ public class SchemeData {
 
     private String calendar;
 
-    private LocalDate startDate;
 
     private String startTime;
 
     private  Boolean isDeleted;
 
-    private SchemeData(long id, final String schemeName,final Double totalAmount,final String totalMembers, final String calendar,final String calendarCode,final  LocalDate startDate, final String startTime,final Boolean isDeleted){
+    private SchemeData(long id, final String schemeName,final Double totalAmount,final String totalMembers, final String calendar,final String calendarCode, final String startTime,final Boolean isDeleted){
 
         this.id = id;
         this.schemeName = schemeName;
@@ -37,13 +36,12 @@ public class SchemeData {
         this.calendar = calendar;
         this.calendarCode= calendarCode;
         this.isDeleted = isDeleted;
-        this.startDate = startDate;
         this.startTime = startTime;
 
     }
 
     public static SchemeData newInstance(final long id,
-                                          final String schemeName ,final Double totalAmount ,final String totalMembers ,final String calendar, final String calendarCode ,final LocalDate startDate,final String startTime,final Boolean isDeleted){
-        return new SchemeData(id, schemeName,totalAmount,totalMembers,calendar,calendarCode,startDate,startTime,isDeleted);
+                                          final String schemeName ,final Double totalAmount ,final String totalMembers ,final String calendar, final String calendarCode ,final String startTime,final Boolean isDeleted){
+        return new SchemeData(id, schemeName,totalAmount,totalMembers,calendar,calendarCode,startTime,isDeleted);
     }
 }

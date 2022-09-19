@@ -27,7 +27,7 @@ public class SchemeRowMapper implements RowMapper<SchemeData> {
         builder.append("sc.total_amount as totalAmount, ");
         builder.append("sc.total_members as totalMembers, ");
         builder.append("sc.calendar_enum as calendarCode, ");
-        builder.append("sc.start_date as startDate, ");
+
         builder.append("sc.start_time as startTime, ");
         builder.append("sc.is_deleted as isDeleted ");
         builder.append(this.schema);
@@ -40,10 +40,9 @@ public class SchemeRowMapper implements RowMapper<SchemeData> {
         final Double totalAmount = rs.getDouble("totalAmount");
         final String totalMembers = rs.getString("totalMembers");
         final String calendarCode = rs.getString("calendarCode");
-        final LocalDate startDate = LocalDate.parse("startData");
         final String startTime = rs.getString("startTime");
         final Boolean isDeleted = rs.getBoolean("isDeleted");
         final String calendar = CalendarTypeEnum.getValueFromCode(calendarCode);
-        return SchemeData.newInstance(id, schemeName,totalAmount,totalMembers,  calendar, calendarCode,startDate,startTime,isDeleted);
+        return SchemeData.newInstance(id, schemeName,totalAmount,totalMembers,  calendar, calendarCode,startTime,isDeleted);
     }
 }
