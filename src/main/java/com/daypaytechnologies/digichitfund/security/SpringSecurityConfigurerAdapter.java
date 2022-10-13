@@ -55,11 +55,8 @@ public class SpringSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                //.antMatchers("/api/v1/categories/**").permitAll()
-                //.antMatchers("/api/v1/polls/**").permitAll()
-
+                .antMatchers("/api/v1/accounts/**").permitAll()
                 .antMatchers("/api/v1/schemes/**").permitAll()
-
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

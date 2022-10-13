@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class CreateAccountRequest {
+public class CreateUserAccountRequest {
 
     private String email;
 

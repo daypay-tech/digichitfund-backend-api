@@ -18,8 +18,8 @@ import javax.persistence.UniqueConstraint;
 public class Role {
 
     @Id
-    @GeneratedValue(generator = "np_role_gen", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "np_role_gen", sequenceName = "np_role_gen_seq", allocationSize = 1)
+    @GeneratedValue(generator = "role_gen", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "role_gen", sequenceName = "role_gen_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 
@@ -29,11 +29,11 @@ public class Role {
     @Column(name = "role_code")
     private String code;
 
-    @Column(name = "is_user_defined", columnDefinition="tinyint(1) default 1")
-    private boolean isUserDefined;
+    @Column(name = "is_user_defined")
+    private boolean isUserDefined = false;
 
     public Role() {
-
+        this.isUserDefined = false;
     }
 
     public Role(String code, String name) {

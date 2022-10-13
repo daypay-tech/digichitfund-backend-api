@@ -1,7 +1,5 @@
 package com.daypaytechnologies.digichitfund.security.authprovider;
 
-import com.daypaytechnologies.digichitfund.security.MemberUserDetailsImpl;
-import com.daypaytechnologies.digichitfund.security.MemberUserDetailsServiceImpl;
 import com.daypaytechnologies.digichitfund.security.authtoken.MemberUsernameAndPasswordAuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MemberAuthenticationProvider implements AuthenticationProvider {
 
-    private final MemberUserDetailsServiceImpl memberUserDetailsService;
+    //private final MemberUserDetailsServiceImpl memberUserDetailsService;
 
     private final PasswordEncoder passwordEncoder;
 

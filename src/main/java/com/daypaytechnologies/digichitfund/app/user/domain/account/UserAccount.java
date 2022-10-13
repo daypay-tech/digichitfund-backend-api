@@ -1,6 +1,7 @@
 package com.daypaytechnologies.digichitfund.app.user.domain.account;
 
 import com.daypaytechnologies.digichitfund.app.user.domain.role.Role;
+import com.daypaytechnologies.digichitfund.app.user.request.CreateUserAccountRequest;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,14 +20,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name = "Account")
-@Table(name = "account")
+@Entity(name = "UserAccount")
+@Table(name = "user_account")
 @Data
-public class Account {
+public class UserAccount {
 
     @Id
-    @GeneratedValue(generator = "account_gen", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "account_gen", sequenceName = "account_gen_seq", allocationSize = 1)
+    @GeneratedValue(generator = "user_account_gen", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "user_account_gen", sequenceName = "user_account_gen_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 
@@ -40,21 +41,21 @@ public class Account {
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "account_role",
-            joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
+    @JoinTable(name = "user_account_role",
+            joinColumns = @JoinColumn(name = "user_account_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
-    public static Account from(final String email, String mobile, String password,
-                                          final List<Role> roleList,
-                                          final PasswordEncoder passwordEncoder) {
-        final Account account = new Account();
-        account.setEmail(email);
-        account.setMobile(mobile);
-        final String encodedPassword = passwordEncoder.encode(password.trim());
-        account.setPassword(encodedPassword);
-        account.addAllRoles(roleList);
-        return account;
+    public static UserAccount from(final CreateUserAccountRequest createUserAccountRequest,
+                                   final List<Role> roleList,
+                                   final PasswordEncoder passwordEncoder) {
+        final UserAccount userAccount = new UserAccount();
+        userAccount.setEmail(createUserAccountRequest.getEmail());
+        userAccount.setMobile(createUserAccountRequest.getMobile());
+        final String encodedPassword = passwordEncoder.encode(createUserAccountRequest.getPassword().trim());
+        userAccount.setPassword(encodedPassword);
+        userAccount.addAllRoles(roleList);
+        return userAccount;
     }
 
     public void addAllRoles(List<Role> roleList) {

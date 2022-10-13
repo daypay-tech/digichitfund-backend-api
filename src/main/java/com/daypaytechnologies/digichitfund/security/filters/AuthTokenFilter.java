@@ -1,10 +1,6 @@
 package com.daypaytechnologies.digichitfund.security.filters;
 
-import com.daypaytechnologies.digichitfund.security.AdministrationUserDetailsImpl;
-import com.daypaytechnologies.digichitfund.security.AdministrationUserDetailsServiceImpl;
 import com.daypaytechnologies.digichitfund.security.JwtTokenHandler;
-import com.daypaytechnologies.digichitfund.security.MemberUserDetailsImpl;
-import com.daypaytechnologies.digichitfund.security.MemberUserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -39,19 +35,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 String clientType = request.getHeader("X-CLIENT-ACCESS-TYPE");
                 String userName = jwtUtils.getUserNameFromJwtToken(jwt);
                 if(clientType != null && clientType.equals("administration_app")) {
-                    UserDetailsService userDetailsService = (AdministrationUserDetailsServiceImpl) applicationContext.getBean("administrationUserDetailsService");
-                    AdministrationUserDetailsImpl userDetails = (AdministrationUserDetailsImpl) userDetailsService.loadUserByUsername(userName);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    SecurityContextHolder.getContext().setAuthentication(null);
                 } else {
-                    UserDetailsService userDetailsService = (MemberUserDetailsServiceImpl) applicationContext.getBean("memberUserDetailsService");
-                    MemberUserDetailsImpl userDetails = (MemberUserDetailsImpl) userDetailsService.loadUserByUsername(userName);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    SecurityContextHolder.getContext().setAuthentication(null);
                 }
             }
         } catch (Exception e) {

@@ -14,9 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserReadPlatformServiceImpl implements UserReadPlatformService {
+public class UserAccountReadPlatformServiceImpl implements UserAccountReadPlatformService {
 
     private final JdbcTemplate jdbcTemplate;
+
     private final PaginationHelper<MemberData> paginationHelper = new PaginationHelper<>();
 
     @Override

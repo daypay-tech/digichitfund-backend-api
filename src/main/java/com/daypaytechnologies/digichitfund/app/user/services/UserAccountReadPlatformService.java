@@ -4,7 +4,7 @@ import com.daypaytechnologies.digichitfund.infrastructure.pagination.Page;
 import com.daypaytechnologies.digichitfund.app.user.data.MemberData;
 import com.daypaytechnologies.digichitfund.app.user.data.UserData;
 
-public interface UserReadPlatformService {
+public interface UserAccountReadPlatformService {
 
     Page<MemberData> fetchAll(int page, int pageSize);
 
