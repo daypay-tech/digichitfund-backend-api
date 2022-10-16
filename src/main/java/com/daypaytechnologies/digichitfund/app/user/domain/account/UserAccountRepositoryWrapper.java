@@ -17,6 +17,11 @@ public class UserAccountRepositoryWrapper {
     }
 
     @Transactional(readOnly = true)
+    public UserAccount findOneWithNotFoundDetection(final Long accountId) {
+        return this.userAccountRepository.findById(accountId).orElseThrow(() -> new NotFoundException("Account Not found " + accountId));
+    }
+
+    @Transactional(readOnly = true)
     public UserAccount findOneWithNotFoundDetectionByMobile(final String mobile) {
         return this.userAccountRepository.findByMobile(mobile).orElseThrow(() -> new NotFoundException("Mobile  Not found " + mobile));
     }

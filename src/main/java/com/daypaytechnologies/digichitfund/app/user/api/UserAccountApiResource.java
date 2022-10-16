@@ -42,10 +42,4 @@ public class UserAccountApiResource {
 //    public Response createSuperAdminAccount(@RequestBody AdministrationUserSignUpRequest administrationUserSignUpRequest) {
 //        return userAccountWritePlatformService.createSuperAdminAccount(administrationUserSignUpRequest);
 //    }
-
-//    @PostMapping("/login")
-//    @SecurityRequirements(value = {})
-//    public AdministrationUserAuthResponseData authenticateAdminUser(@RequestBody AdministrationUserLoginRequest loginRequest) {
-//        return this.userAccountWritePlatformService.authenticateAdminUser(loginRequest);
-//    }
 }

@@ -1,6 +1,6 @@
 package com.daypaytechnologies.digichitfund.security;
 
-import com.daypaytechnologies.digichitfund.security.authprovider.AdministrationUserAuthenticationProvider;
+import com.daypaytechnologies.digichitfund.security.authprovider.UserAccountAuthenticationProvider;
 import com.daypaytechnologies.digichitfund.security.authprovider.MemberAuthenticationProvider;
 import com.daypaytechnologies.digichitfund.security.filters.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +28,11 @@ public class SpringSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
 
     private final AuthTokenFilter authenticationJwtTokenFilter;
 
-    private final AdministrationUserAuthenticationProvider adminCustomAuthenticationProvider;
-
-    private final MemberAuthenticationProvider memberAuthenticationProvider;
+    private final UserAccountAuthenticationProvider userAccountAuthenticationProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(memberAuthenticationProvider);
-        auth.authenticationProvider(adminCustomAuthenticationProvider);
+        auth.authenticationProvider(userAccountAuthenticationProvider);
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
@@ -56,6 +53,7 @@ public class SpringSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/accounts/**").permitAll()
+                .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers("/api/v1/schemes/**").permitAll()
                 .anyRequest()
                 .authenticated();

@@ -23,26 +23,12 @@ public class JwtTokenHandler {
     @Value("${com.daypaytechnologies.digichitfund.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(String userName, Long userId) {
+    public String generateJwtToken(String userName, Long accountId, Long roleId) {
         final Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject((userName))
-                .setId(String.valueOf(userId))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
-
-    public String generateAdministrationUserJwtToken(String userName, Long orgId, Long userId) {
-        if(orgId == null) {
-            orgId = 0L; //for super admin
-        }
-        userName = userName+":"+orgId;
-        return Jwts.builder()
-                .setSubject((userName))
-                .setId(String.valueOf(userId))
+                .setId(String.valueOf(accountId))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
