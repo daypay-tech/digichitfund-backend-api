@@ -55,6 +55,7 @@ public class Scheme {
     @Column(name = "deleted_by", nullable = true)
     @Basic(optional = true)
     private int deletedBy;
+
     public static Scheme from(final CreateSchemeRequest createSchemeRequest, String calendar) {
         final Scheme scheme = new Scheme();
         scheme.setSchemeName(createSchemeRequest.getSchemeName());

@@ -1,4 +1,4 @@
-package com.daypaytechnologies.digichitfund.app.useraccount.domain;
+package com.daypaytechnologies.digichitfund.app.core;
 
 public enum GenderEnum {
 
