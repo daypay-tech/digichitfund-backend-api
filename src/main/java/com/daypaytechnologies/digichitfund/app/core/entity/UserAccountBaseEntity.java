@@ -1,19 +1,15 @@
 package com.daypaytechnologies.digichitfund.app.core.entity;
 
-import com.daypaytechnologies.digichitfund.app.user.domain.account.UserAccount;
-import com.daypaytechnologies.digichitfund.app.user.domain.role.Role;
+import com.daypaytechnologies.digichitfund.app.useraccount.domain.account.UserAccount;
+import com.daypaytechnologies.digichitfund.app.useraccount.domain.role.Role;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Getter

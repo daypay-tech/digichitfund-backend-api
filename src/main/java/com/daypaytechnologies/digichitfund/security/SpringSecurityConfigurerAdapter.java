@@ -1,7 +1,6 @@
 package com.daypaytechnologies.digichitfund.security;
 
 import com.daypaytechnologies.digichitfund.security.authprovider.UserAccountAuthenticationProvider;
-import com.daypaytechnologies.digichitfund.security.authprovider.MemberAuthenticationProvider;
 import com.daypaytechnologies.digichitfund.security.filters.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

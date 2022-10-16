@@ -1,7 +1,7 @@
 package com.daypaytechnologies.digichitfund.security;
 
-import com.daypaytechnologies.digichitfund.app.user.domain.account.UserAccount;
-import com.daypaytechnologies.digichitfund.app.user.domain.account.UserAccountRepository;
+import com.daypaytechnologies.digichitfund.app.useraccount.domain.account.UserAccount;
+import com.daypaytechnologies.digichitfund.app.useraccount.domain.account.UserAccountRepository;
 import com.daypaytechnologies.digichitfund.infrastructure.exceptions.AuthenticationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

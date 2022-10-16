@@ -1,6 +1,6 @@
 package com.daypaytechnologies.digichitfund.security;
 
-import com.daypaytechnologies.digichitfund.app.user.domain.account.UserAccount;
+import com.daypaytechnologies.digichitfund.app.useraccount.domain.account.UserAccount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -3,8 +3,6 @@ package com.daypaytechnologies.digichitfund.app.auth.api;
 import com.daypaytechnologies.digichitfund.app.auth.data.AuthData;
 import com.daypaytechnologies.digichitfund.app.auth.request.UserLoginRequest;
 import com.daypaytechnologies.digichitfund.app.auth.services.AuthService;
-import com.daypaytechnologies.digichitfund.app.user.data.AdministrationUserAuthResponseData;
-import com.daypaytechnologies.digichitfund.app.user.services.UserAccountReadPlatformService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

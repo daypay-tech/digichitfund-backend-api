@@ -1,14 +1,8 @@
 package com.daypaytechnologies.digichitfund.app.auth.data;
 
-import com.daypaytechnologies.digichitfund.app.user.data.AdministrationUserAuthResponseData;
-import com.daypaytechnologies.digichitfund.app.user.data.JwtResponse;
-import com.daypaytechnologies.digichitfund.app.user.data.RoleData;
-import com.daypaytechnologies.digichitfund.app.user.data.UserData;
-import io.jsonwebtoken.Jwt;
+import com.daypaytechnologies.digichitfund.app.useraccount.data.JwtResponse;
+import com.daypaytechnologies.digichitfund.app.useraccount.data.UserData;
 import lombok.Data;
-import org.apache.catalina.User;
-
-import java.util.List;
 
 @Data
 public class AuthData {
